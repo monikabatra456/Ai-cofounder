@@ -1,0 +1,90 @@
+@import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  
+  --color-bg-primary: #0A0F2C;
+  --color-bg-card: #111827;
+  --color-bg-input: #1F2937;
+  --color-accent: #3B82F6;
+  --color-success: #10B981;
+  --color-warning: #F59E0B;
+  --color-text-muted: #9CA3AF;
+  --color-border: #1F2937;
+  --color-border-hover: #374151;
+}
+
+@layer base {
+  body {
+    @apply bg-bg-primary text-white font-sans antialiased;
+    margin: 0;
+    overflow: hidden;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-bg-card border border-border rounded-[16px] p-6 transition-all duration-200;
+  }
+  
+  .btn-primary {
+    @apply bg-accent text-white font-bold rounded-[12px] px-6 py-3 transition-all duration-200 hover:bg-blue-600 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  
+  .input-field {
+    @apply bg-bg-input text-white border border-border rounded-[10px] px-4 py-3 outline-none transition-all duration-200 focus:border-accent;
+  }
+}
+
+/* Custom Leaflet Popup Styling */
+.custom-popup .leaflet-popup-content-wrapper {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+.custom-popup .leaflet-popup-tip-container { display: none }
+.custom-popup .leaflet-popup-content { margin: 0 !important }
+
+/* Animations */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.3s ease forwards;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.4s ease forwards;
+}
+
+.animate-spin-slow {
+  animation: spin 0.8s linear infinite;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0A0F2C;
+}
+::-webkit-scrollbar-thumb {
+  background: #1F2937;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #374151;
+}

@@ -1,0 +1,92 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isDocOwner() {
+      return isAuthenticated() && request.auth.uid == resource.data.uid;
+    }
+
+    function isNewDocOwner() {
+      return isAuthenticated() && request.auth.uid == request.resource.data.uid;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() &&
+        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin' ||
+          (request.auth.token.email == "monikabatra890@gmail.com" && request.auth.token.email_verified == true));
+    }
+
+    function hasOnlyAllowedFields(fields) {
+      return request.resource.data.keys().hasOnly(fields);
+    }
+
+    function isValidEmail(email) {
+      return email is string && email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+    }
+
+    // ===============================================================
+    // Domain Validators
+    // ===============================================================
+
+    function isValidUser(data) {
+      return hasOnlyAllowedFields(['uid', 'name', 'email', 'photo', 'updatedAt', 'role']) &&
+             data.uid is string &&
+             data.email is string && isValidEmail(data.email);
+    }
+
+    function isValidAnalysisResult(data) {
+      return hasOnlyAllowedFields(['id', 'uid', 'startupName', 'oneLiner', 'marketSize', 'marketGrowth', 'opportunityScore', 'targetCustomer', 'revenueModel', 'fundingStage', 'competitors', 'swot', 'pitchSlides', 'investorEmail', 'city', 'createdAt', 'tamSamSom', 'marketTrends', 'barriersToEntry', 'regulatoryLandscape', 'customerPainPoints']) &&
+             data.uid is string &&
+             data.startupName is string && data.startupName.size() > 0 && data.startupName.size() < 100;
+    }
+
+    function isValidMeeting(data) {
+      return hasOnlyAllowedFields(['id', 'uid', 'investorId', 'investorName', 'investorFund', 'investorAvatar', 'investorColor', 'meetingType', 'date', 'time', 'duration', 'agenda', 'platform', 'meetLink', 'founderName', 'founderEmail', 'startupName', 'officeAddress', 'status', 'createdAt']) &&
+             data.uid is string &&
+             data.investorId is number &&
+             data.date is string &&
+             data.time is string;
+    }
+
+    // ===============================================================
+    // Rules
+    // ===============================================================
+
+    match /users/{uid} {
+      allow read: if isOwner(uid) || isAdmin();
+      allow create: if isOwner(uid) && isValidUser(request.resource.data);
+      allow update: if isOwner(uid) && isValidUser(request.resource.data);
+    }
+
+    match /analysisResults/{resultId} {
+      allow read: if isDocOwner() || isAdmin();
+      allow create: if isNewDocOwner() && isValidAnalysisResult(request.resource.data);
+      allow update: if isDocOwner() && isValidAnalysisResult(request.resource.data);
+      allow delete: if isDocOwner() || isAdmin();
+    }
+
+    match /meetings/{meetingId} {
+      allow read: if isDocOwner() || isAdmin();
+      allow create: if isNewDocOwner() && isValidMeeting(request.resource.data);
+      allow update: if isDocOwner() && isValidMeeting(request.resource.data);
+      allow delete: if isDocOwner() || isAdmin();
+    }
+
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

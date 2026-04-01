@@ -1,0 +1,5 @@
+{
+  "name": "AI Co-founder",
+  "description": "An AI-powered startup co-founder tool for first-time Indian founders. From idea to funding in seconds.",
+  "requestFramePermissions": ["geolocation"]
+}

@@ -1,0 +1,95 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile data",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "photo": { "type": "string" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email"]
+    },
+    "AnalysisResult": {
+      "title": "AnalysisResult",
+      "description": "AI-generated startup analysis result",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "uid": { "type": "string" },
+        "startupName": { "type": "string" },
+        "oneLiner": { "type": "string" },
+        "marketSize": { "type": "string" },
+        "marketGrowth": { "type": "string" },
+        "tamSamSom": {
+          "type": "object",
+          "properties": {
+            "tam": { "type": "string" },
+            "sam": { "type": "string" },
+            "som": { "type": "string" }
+          }
+        },
+        "marketTrends": { "type": "array", "items": { "type": "string" } },
+        "barriersToEntry": { "type": "array", "items": { "type": "string" } },
+        "regulatoryLandscape": { "type": "string" },
+        "customerPainPoints": { "type": "array", "items": { "type": "string" } },
+        "opportunityScore": { "type": "number" },
+        "targetCustomer": { "type": "string" },
+        "revenueModel": { "type": "string" },
+        "fundingStage": { "type": "string" },
+        "competitors": { "type": "array" },
+        "swot": { "type": "object" },
+        "pitchSlides": { "type": "array" },
+        "investorEmail": { "type": "object" },
+        "city": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "startupName", "createdAt"]
+    },
+    "Meeting": {
+      "title": "Meeting",
+      "description": "Scheduled meeting with an investor",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "uid": { "type": "string" },
+        "investorId": { "type": "number" },
+        "investorName": { "type": "string" },
+        "investorFund": { "type": "string" },
+        "investorAvatar": { "type": "string" },
+        "investorColor": { "type": "string" },
+        "meetingType": { "type": "string" },
+        "date": { "type": "string" },
+        "time": { "type": "string" },
+        "duration": { "type": "string" },
+        "agenda": { "type": "string" },
+        "platform": { "type": "string" },
+        "meetLink": { "type": "string" },
+        "founderName": { "type": "string" },
+        "founderEmail": { "type": "string" },
+        "startupName": { "type": "string" },
+        "officeAddress": { "type": "string" },
+        "status": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "investorId", "date", "time", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{uid}": {
+      "schema": "User",
+      "description": "User profile documents"
+    },
+    "/analysisResults/{resultId}": {
+      "schema": "AnalysisResult",
+      "description": "Startup analysis results"
+    },
+    "/meetings/{meetingId}": {
+      "schema": "Meeting",
+      "description": "Scheduled meetings"
+    }
+  }
+}
