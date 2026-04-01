@@ -1,20 +1,42 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Ai-cofounder
 
-# Run and deploy your AI Studio app
+AI Co-founder app - your partner to scale your startup journey!
 
-This contains everything you need to run your app locally.
+[![AI Studio](https://ai.studio/apps/fcb47e7f-42cd-4242-8545-0bafc477cb42)](https://ai.studio/apps/fcb47e7f-42cd-4242-8545-0bafc477cb42)
 
-View your app in AI Studio: https://ai.studio/apps/fcb47e7f-42cd-4242-8545-0bafc477cb42
+## Features
+
+- Investor search and map
+- Email composer
+- PPT maker
+- Meetings scheduler
+- Firebase integration
 
 ## Run Locally
 
-**Prerequisites:**  Node.js
-
+**Prerequisites:** Node.js 18+
 
 1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+   ```
+   npm install
+   ```
+2. Create `.env.local` and set your `GEMINI_API_KEY` (from Google AI Studio).
+3. Run the development server:
+   ```
+   npm run dev
+   ```
+
+Open [http://localhost:5173](http://localhost:5173) to view in browser.
+
+## Deployment
+
+Hosted on AI Studio: [View App](https://ai.studio/apps/fcb47e7f-42cd-4242-8545-0bafc477cb42)
+
+## Tech Stack
+
+- React 19 + Vite + TypeScript
+- Tailwind CSS
+- Firebase (Auth, Firestore)
+- Google Gemini AI
+- Leaflet maps
+- PPTX generation
